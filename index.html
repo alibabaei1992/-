@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<form id="contactForm">
+  <!-- فیلدها به همان شکلی که هستند باقی می‌مانند -->
+</form>
+
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzaIjhi60-2RA2vOap9FP8qZgLX1pFjc98zxEagD82ZEPYiRuYtZt6J7MMuqieCMiEk/exec'; // لینک Web App شما
+
+  document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    e.preventDefault(); // جلوگیری از ارسال پیش‌فرض فرم
+
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries()); // تبدیل داده‌های فرم به JSON
+
+    try {
+      const response = await fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        alert('اطلاعات با موفقیت ثبت شد!');
+        e.target.reset(); // ریست کردن فرم
+      } else {
+        throw new Error(result.error || 'خطایی رخ داده است!');
+      }
+    } catch (error) {
+      alert('ارسال اطلاعات با مشکل مواجه شد: ' + error.message);
+    }
+  });
+</script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ثبت اطلاعات تماس مرکز تماس</title>
+  <!-- لینک فونت فارسی -->
+  <link href="https://cdn.fontcdn.ir/Font/Persian/IranSans/WebFonts/css/fontiran.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'IRANSans', Tahoma, sans-serif;
+      direction: rtl;
+      text-align: right;
+      background-color: #eef2f7;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background-color: #2c3e50;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .header h1 span {
+      font-size: 28px;
+      color: #f39c12;
+    }
+    .container {
+      width: 100%;
+      max-width: 700px;
+      margin: 30px auto;
+      background: #ffffff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border: 3px solid #2c3e50;
+    }
+    .container h2 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 20px;
+      border-bottom: 2px solid #f39c12;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #f39c12;
+      outline: none;
+    }
+    textarea {
+      resize: none;
+    }
+    button {
+      background-color: #2c3e50;
+      color: #ffffff;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1a242f;
+    }
+    .icon {
+      font-size: 16px;
+      margin-left: 5px;
+      color: #f39c12;
+    }
+    #responseMessage {
+      text-align: center;
+      font-size: 16px;
+      margin-top: 10px;
+      display: none;
+    }
+    footer {
+      text-align: center;
+      padding: 10px 0;
+      background: #2c3e50;
+      color: #ffffff;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1><span>📞</span>مرکز تماس مشتریان</h1>
+  </header>
+  <div class="container">
+    <h2>فرم ثبت اطلاعات تماس</h2>
+    <form id="contactForm">
+      <label for="name">نام همکار <span class="icon">👤</span></label>
+      <input type="text" id="name" name="name" required placeholder="نام کامل">
+
+      <label for="city">شهر شعبه <span class="icon">🌆</span></label>
+      <select id="city" name="city">
+        <option value="تهران">تهران</option>
+        <option value="مشهد">مشهد</option>
+        <option value="اصفهان">اصفهان</option>
+        <option value="شیراز">شیراز</option>
+      </select>
+
+      <label for="branch">عنوان شعبه <span class="icon">🏢</span></label>
+      <input type="text" id="branch" name="branch" placeholder="نام شعبه">
+
+      <label for="mainTopic">موضوع اصلی تماس <span class="icon">📋</span></label>
+      <select id="mainTopic" name="mainTopic">
+        <option value="پشتیبانی">پشتیبانی</option>
+        <option value="فروش">فروش</option>
+        <option value="مالی">مالی</option>
+      </select>
+
+      <label for="subTopic">موضوع فرعی تماس <span class="icon">📂</span></label>
+      <select id="subTopic" name="subTopic">
+        <option value="خطا در سیستم">خطا در سیستم</option>
+        <option value="عدم دریافت خدمات">عدم دریافت خدمات</option>
+        <option value="سوالات عمومی">سوالات عمومی</option>
+      </select>
+
+      <label for="contactType">نوع تماس <span class="icon">☎️</span></label>
+      <select id="contactType" name="contactType">
+        <option value="تلفنی">تلفنی</option>
+        <option value="حضوری">حضوری</option>
+        <option value="آنلاین">آنلاین</option>
+      </select>
+
+      <label for="eventType">نوع رخداد <span class="icon">⚠️</span></label>
+      <select id="eventType" name="eventType">
+        <option value="مشکل فنی">مشکل فنی</option>
+        <option value="درخواست پیگیری">درخواست پیگیری</option>
+      </select>
+
+      <label for="description">شرح <span class="icon">📝</span></label>
+      <textarea id="description" name="description" rows="4" required placeholder="شرح تماس را وارد کنید"></textarea>
+
+      <button type="submit">ثبت اطلاعات</button>
+    </form>
+    <p id="responseMessage">اطلاعات با موفقیت ثبت شد!</p>
+  </div>
+  <footer>
+    <p>© 2024 مرکز تماس مشتریان - طراحی شده با دقت و توجه</p>
+  </footer>
+</body>
+</html>
